@@ -1,0 +1,11 @@
+.content{ 
+    margin: 0 57px; 
+    font-weight: 700; 
+    font-size: larger;
+    margin-top: 72px;
+}
+
+.col img{ 
+    border-radius: 11px; 
+    width: 71%; 
+}
