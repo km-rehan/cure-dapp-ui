@@ -1,0 +1,26 @@
+.blog-card{
+    border-radius: 11px!important;
+    width: 16rem;
+}
+
+.blog-card-img, .card-img-top {
+    border-top-left-radius: calc(.25rem - 1px) !important;
+    border-top-right-radius: calc(.25rem - 1px) !important;
+}
+
+.blog-card-img, .card-img-bottom, .card-img-top {
+    flex-shrink: 0;
+    width: 100% !important;
+}
+
+.card-img-top{
+    padding: 17px; 
+    border-radius: 22px; 
+    height: 154px; 
+}
+
+.card-body img{margin-top: 9px; border-radius: 21px; margin-left: -6px; width: 41px !important; }
+.form-group textarea { padding: 10px; margin-left: -18px; }
+.fixed-top{
+  position: unset !important;
+}

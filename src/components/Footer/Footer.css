@@ -1,0 +1,61 @@
+footer{  background: rgb(13, 193, 193)!important; color: white; font-weight: 500; }
+footer .container{ padding-top:40px; padding-bottom: 30px; }
+footer li{ list-style: none; } 
+footer .row{ margin-bottom: 30px;}
+footer input{ border: none; width: 86%; text-align: center; border-radius: 10px; font-weight: 500; padding: 7px; }
+footer button{ background-color: white; border: none; color: black; font-weight: 600; margin-left: -129px; border-radius: 7px; }
+.subscribe{ text-align: initial; }
+.subscribe p:first-child{ margin-bottom: -5px; }
+form{ text-align: initial;}
+form input{ margin-top: -6px; height: 33px; }
+.below-footer-txt{
+  max-width: 300px;
+}
+
+.footer-social-link {
+  display: flex;
+}
+
+.footer-input{
+  display: flex;
+}
+.input-field-footer{
+  width: 80%;
+  height: 40px;
+}
+.send-btn-footer{
+  margin: 10px;
+  margin-top: 0;
+  width: 150px;
+  height: 40px;
+}
+.social-img {
+  width: 30px !important;
+  /* height: 30px; */
+  margin: 20px 5px 10px 5px;
+}
+
+.col {
+    justify-content: center;
+}
+
+.col p {
+    text-align: center;
+}
+
+.col h2 {
+    text-align: center;
+}
+
+li {
+    text-align: center;
+}
+
+.col figure {
+    text-align: center;
+}
+
+.img-fluid {
+    width: 171px !important;
+    margin: 0px auto !important;
+}

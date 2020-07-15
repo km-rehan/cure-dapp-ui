@@ -1,22 +1,26 @@
 import React from 'react'
-import { Container } from 'reactstrap'
+import "./Landing.css";
 import Banner from '../../components/Banner'
 import Vision from "../../components/Vision"
 import About from "../../components/About";
 import Solutions from "../../components/Solutions";
+import Blog from "../../components/Blog";
+import Footer from "../../components/Footer";
 
 export function Landing({}) {
     return (
-        <div className="App-header">
+        <div className="App">
             <Banner />
-
-            <div className="maindiv">
-                <Container>
+            <div className="App-header">
+                <div className="maindiv">
+                    
                     <Vision />
-                </Container>
-                <About />
-                <Solutions/>
+                    <About />
+                    <Solutions/>
+                    <Blog />
+                </div>
             </div>
+            <Footer />
         </div>
     )
 }
