@@ -2,12 +2,15 @@ import React from 'react';
 import Root from "./Root";
 import Routes from "./Routes";
 import "./App.css";
+import { ConfigProvider } from "react-avatar";
 
 function App() {
   return (
-    <Root>
-      <Routes />
-    </Root>
+    <ConfigProvider colors={['red', 'blue']}>
+      <Root>
+        <Routes />
+      </Root>
+    </ConfigProvider>
   );
 }
 

@@ -1,6 +1,7 @@
 import { put, call, takeEvery } from "redux-saga/effects";
 import { getUserSessionId, verifyMessage } from "../../services/login";
 import ether from "ethers-wallet";
+import * as jwt_decode from "jwt-decode";
 
 
 //actions
@@ -15,7 +16,8 @@ const LOGOUT_USER = "cured-app/login-duck/LOGOUT";
 const initialState = {
     error: null,
     user: {},
-    message: ""
+    message: "",
+    expiryTime: null
 }
 
 export function loginReducer(state={...initialState}, action) {
@@ -23,7 +25,8 @@ export function loginReducer(state={...initialState}, action) {
         case LOGIN_USER_SUCCESSFUL:
             return {
                 ...state,
-                user: action.user
+                user: action.user,
+                expiryTime: action.expiryTime
             }
         case LOGIN_USER_FAILURE:
             return {
@@ -64,12 +67,17 @@ function* handleLoginAction({ walletAddress }) {
             }
             const loginResponse = yield call(verifyMessage, loginBody);
             const { message, body, token } = loginResponse;
+
+            const decodedToken = jwt_decode(token);
             localStorage.setItem("AuthToken", token);
+
+            const expireyTime = Date.now() + new Date(decodedToken.iex);
 
             yield put({
                 type: LOGIN_USER_SUCCESSFUL,
                 message: message,
-                user: body
+                user: body,
+                expiryTime: expireyTime
             })
 
         } else {

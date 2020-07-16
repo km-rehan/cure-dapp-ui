@@ -8,20 +8,18 @@ import {
     DropdownToggle, DropdownMenu,
     DropdownItem, Nav
   } from "reactstrap";
-
 import logoImage from "../../resources/icons/curelogo.png"
-
 import Image from "../Image";
-
 import "./NavigationBar.css";
-
 import { scroller } from "react-scroll";
+import * as _ from "lodash";
+import Avatar from "react-avatar";
 
 const initialState = {
     isOpen: false
 }
 
-export function NavigationBar({  token, user, history, loginAction }) {
+export function NavigationBar({  user, walletAddress, history, loginAction }) {
 
     const [state, setState] = useState({ ...initialState });
 
@@ -58,6 +56,11 @@ export function NavigationBar({  token, user, history, loginAction }) {
             const data = e.data;
             loginAction(data)
         }, false);
+
+        window.onclose = function() {
+            window.removeEventListener('message', function(e) {
+            }, false)
+        }
         
     }
 
@@ -73,20 +76,20 @@ export function NavigationBar({  token, user, history, loginAction }) {
                         <NavLink tag={Link} to="/home">Home</NavLink>
                     </NavItem>
                     <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle nav dropdown>
+                        <DropdownToggle className="custom-dropdown-toggle" nav dropdown>
                             Our products
                         </DropdownToggle>
-                        <DropdownMenu right>
-                            <DropdownItem tag={Link} to="/products/distributor">
+                        <DropdownMenu className="custom-dropdown-menu" right>
+                            <DropdownItem className="custom-dropdown-item" tag={Link} to="/products/distributor">
                                 Distributor
                             </DropdownItem>
-                            <DropdownItem tag={Link} to="/products/manufacturer">
+                            <DropdownItem className="custom-dropdown-item" tag={Link} to="/products/manufacturer">
                                 Manufacturer
                             </DropdownItem>
-                            <DropdownItem tag={Link} to="/products/patient">
+                            <DropdownItem className="custom-dropdown-item" tag={Link} to="/products/patient">
                                 Patient
                             </DropdownItem>
-                            <DropdownItem tag={Link} to="/products/pharmacy">
+                            <DropdownItem className="custom-dropdown-item" tag={Link} to="/products/pharmacy">
                                 Pharmacy
                             </DropdownItem>
                         </DropdownMenu>
@@ -109,9 +112,35 @@ export function NavigationBar({  token, user, history, loginAction }) {
                 </Nav>
                 <Nav pills>
                     <NavItem>
-                        <NavLink tag={Link} onClick={connectToWallet} className="connect-wallet-button">
-                            Connect to wallet
-                        </NavLink>
+                        {
+                            _.isEmpty(user) 
+                            ? (
+                                <NavLink tag={Link} onClick={connectToWallet} className="connect-wallet-button">
+                                    Connect to wallet
+                                </NavLink>
+                              )
+                            : (
+                                <UncontrolledDropdown nav inNavbar>
+                                    <DropdownToggle nav dropdown>
+                                        <Avatar name={walletAddress} size="45" round={true} />
+                                    </DropdownToggle>
+                                    <DropdownMenu right>
+                                        <DropdownItem tag={Link} to="/account">
+                                            Account
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <NavLink>
+                                                Wallet
+                                            </NavLink>
+                                            <small>{walletAddress}</small>
+                                        </DropdownItem>
+                                        <DropdownItem tag={Link} onClick={() => {}}>
+                                            Logout
+                                        </DropdownItem>
+                                    </DropdownMenu>
+                                </UncontrolledDropdown>
+                              )
+                        }
                     </NavItem>
                 </Nav>
             </Collapse>
