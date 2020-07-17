@@ -12,14 +12,13 @@ import logoImage from "../../resources/icons/curelogo.png"
 import Image from "../Image";
 import "./NavigationBar.css";
 import { scroller } from "react-scroll";
-import * as _ from "lodash";
-import Avatar from "react-avatar";
+import imageAvatar from "../../resources/icons/img_avatar.png";
 
 const initialState = {
     isOpen: false
 }
 
-export function NavigationBar({  user, walletAddress, history, loginAction }) {
+export function NavigationBar({  isLoggedIn, history, loginAction, logoutAction }) {
 
     const [state, setState] = useState({ ...initialState });
 
@@ -113,7 +112,7 @@ export function NavigationBar({  user, walletAddress, history, loginAction }) {
                 <Nav pills>
                     <NavItem>
                         {
-                            _.isEmpty(user) 
+                            !isLoggedIn
                             ? (
                                 <NavLink tag={Link} onClick={connectToWallet} className="connect-wallet-button">
                                     Connect to wallet
@@ -122,19 +121,16 @@ export function NavigationBar({  user, walletAddress, history, loginAction }) {
                             : (
                                 <UncontrolledDropdown nav inNavbar>
                                     <DropdownToggle nav dropdown>
-                                        <Avatar name={walletAddress} size="45" round={true} />
+                                       <Image styleClass="nav-avatar" source={imageAvatar} />
                                     </DropdownToggle>
                                     <DropdownMenu right>
                                         <DropdownItem tag={Link} to="/account">
                                             Account
                                         </DropdownItem>
-                                        <DropdownItem>
-                                            <NavLink>
-                                                Wallet
-                                            </NavLink>
-                                            <small>{walletAddress}</small>
+                                        <DropdownItem tag={Link} to="/wallet"> 
+                                            Wallet
                                         </DropdownItem>
-                                        <DropdownItem tag={Link} onClick={() => {}}>
+                                        <DropdownItem tag={Link} onClick={logoutAction}>
                                             Logout
                                         </DropdownItem>
                                     </DropdownMenu>

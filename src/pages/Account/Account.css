@@ -1,0 +1,158 @@
+.main-container{
+    border: 1px solid  #a7a7a773;
+    border-radius: 10px;
+    margin-bottom:18%;
+    background-color: #FFF;
+    padding-top: 30px;
+    width: 80%;
+    padding: 10px;
+    box-shadow: 1px 4px #a7a7a773;
+    margin-top: 10%;
+}
+
+.left-card {
+    height: 70vh;
+    background: rgb(255, 255, 255)!important;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.right-card {
+    padding: 20px;
+    background: rgb(255, 255, 255) !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); 
+}
+
+.card-title {
+    text-align: center;
+    text-decoration: solid;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    font-style: initial;
+    font-family: sans-serif;
+}
+
+.identity-container{
+    max-width: 90%;
+    margin: 0 auto;
+ }
+ .top-account-profile{
+     display: flex;
+     border-bottom: 1px solid #a7a7a757;
+     margin-bottom: 30px; 
+     justify-content: start;
+ }
+
+ .second-account-profile{
+    display: flex;
+    border-bottom: 1px solid #a7a7a757;
+    margin-bottom: 30px; 
+ }
+ .third-account-profile{
+    display: flex;
+    border-bottom: 1px solid #a7a7a757;
+    margin-bottom: 30px;  
+ }
+
+ .profile-img {
+     width: 90px;
+     height: 90px;
+     border: 1px solid #a7a7a7;
+     border-radius: 60px;
+     margin-bottom: 20px;
+     align-self: center;
+ }
+
+ .account-heading{
+     font-size: 20px;
+     font-weight: bold;
+     text-align: initial;
+ }
+ ::placeholder {
+    color:#a7a7a7;
+    opacity: 1; 
+  }
+
+  .ac-flex{
+    margin-left: 5%;
+    align-self: center;
+  }
+  .ac-name-field{
+      border-radius: 1px;
+  }
+
+  .sec-ac-name-field{
+      margin-bottom: 30px;
+      
+  }
+
+  .avatar {
+    vertical-align: middle;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    opacity: 1;
+    transition: .5s ease;
+    backface-visibility: hidden;
+  }
+
+  .file-upload-button {
+      display: none;
+  }
+
+  .form-container {
+    display: flex;
+    margin: 10px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+  }
+  
+  .items {
+    width: 30%;
+    /* Same as width, sets height */
+    margin-bottom: 2%;
+    /* (100-32*3)/2 */
+    position: relative;
+    /* (100-32*3)/2 */
+  }
+  
+  .items div {
+    text-align: center;
+    align-content: center;
+    align-items: center
+  }
+  
+  @media(max-width: 1333px) {
+    .items {
+      flex-basis: 33.33%;
+    }
+  }
+  
+  @media(max-width: 1073px) {
+    .items {
+      flex-basis: 33.33%;
+    }
+  }
+  
+  @media(max-width: 815px) {
+    .items {
+      flex-basis: 50%;
+    }
+  }
+  
+  @media(max-width: 555px) {
+    .items {
+      flex-basis: 100%;
+    }
+  }
+
+  .section {
+    border-bottom: 1px solid #a7a7a757;
+    margin-bottom: 30px; 
+  }
+
+ .submit-button {
+     width: 100%;
+ }

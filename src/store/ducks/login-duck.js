@@ -6,6 +6,7 @@ import * as jwt_decode from "jwt-decode";
 
 //actions
 const LOGIN_USER = "cured-app/login-duck/LOGIN_USER";
+const LOGIN_REQUESTED = "cure-dapp/login-duck/LOGIN_REQUESTED";
 const LOGIN_USER_SUCCESSFUL = "cured-app/login-duck/LOGIN_USER_SUCCESSFUL";
 const LOGIN_USER_FAILURE = "cured-app/login-duck/LOGIN_USER_FAILURE";
 
@@ -17,29 +18,46 @@ const initialState = {
     error: null,
     user: {},
     message: "",
-    expiryTime: null
+    expiryTime: null,
+    isLoggedIn: false,
+    loading: false,
 }
 
 export function loginReducer(state={...initialState}, action) {
     switch(action.type) {
+        case LOGIN_REQUESTED:
+            sessionStorage.removeItem("AuthToken")
+            return {
+                ...state,
+                loading: true,
+                error: null,
+                user: {},
+                message: "",
+                expiryTime: null,
+                isLoggedIn: false,
+
+            }
         case LOGIN_USER_SUCCESSFUL:
             return {
                 ...state,
                 user: action.user,
-                expiryTime: action.expiryTime
+                expiryTime: action.expiryTime,
+                isLoggedIn: true,
+                loading: false
             }
         case LOGIN_USER_FAILURE:
             return {
                 ...state,
-                error: action.error
+                error: action.error,
+                loading: false
             }
         case LOGOUT_USER:
-            localStorage.removeItem("AuthToken")
+            sessionStorage.removeItem("AuthToken")
             return {
                 ...initialState
             }
         default:
-            return state;
+            return initialState;
     }
 }
 
@@ -52,8 +70,17 @@ export function loginAction(walletAddress) {
     }
 }
 
+export function logoutAction() {
+    return {
+        type: LOGIN_USER
+    }
+}
+
 function* handleLoginAction({ walletAddress }) {
     try {
+        yield put({
+            type: LOGIN_REQUESTED
+        });
         if (walletAddress && walletAddress.substring(0, 2) === "0x") {
             const wallet = new ether.Wallet(walletAddress);
             const sessionResponse = yield call(getUserSessionId);
@@ -69,7 +96,7 @@ function* handleLoginAction({ walletAddress }) {
             const { message, body, token } = loginResponse;
 
             const decodedToken = jwt_decode(token);
-            localStorage.setItem("AuthToken", token);
+            sessionStorage.setItem("AuthToken", token);
 
             const expireyTime = Date.now() + new Date(decodedToken.iex);
 

@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Root from "./Root";
 import Routes from "./Routes";
 import "./App.css";
-import { ConfigProvider } from "react-avatar";
+import { Provider } from "react-redux";
+import { configureStore } from "./store";
 
-function App() {
+const store = configureStore();
+
+const App = ({ hideLoader }) => {
+  useEffect(hideLoader, []);
+  
   return (
-    <ConfigProvider colors={['red', 'blue']}>
+    <Provider store={store}>
       <Root>
         <Routes />
       </Root>
-    </ConfigProvider>
-  );
+    </Provider>
+      
+  ); 
 }
 
 export default App;

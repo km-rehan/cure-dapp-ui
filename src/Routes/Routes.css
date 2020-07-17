@@ -1,0 +1,8 @@
+.modal-body {
+    display: flex !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+}
+.modal-body img {
+    height: 400px;
+}
