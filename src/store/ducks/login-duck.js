@@ -98,7 +98,9 @@ function* handleLoginAction({ walletAddress }) {
             const decodedToken = jwt_decode(token);
             sessionStorage.setItem("AuthToken", token);
 
-            const expireyTime = Date.now() + new Date(decodedToken.iex);
+            console.log("Decoded", JSON.stringify(decodedToken))
+
+            const expireyTime = Date.now();
 
             yield put({
                 type: LOGIN_USER_SUCCESSFUL,

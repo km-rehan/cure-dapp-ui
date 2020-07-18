@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { 
     Collapse, Navbar, 
@@ -12,15 +12,25 @@ import logoImage from "../../resources/icons/curelogo.png"
 import Image from "../Image";
 import "./NavigationBar.css";
 import { scroller } from "react-scroll";
-import imageAvatar from "../../resources/icons/img_avatar.png";
+
+
 
 const initialState = {
     isOpen: false
 }
 
-export function NavigationBar({  isLoggedIn, history, loginAction, logoutAction }) {
+export function NavigationBar({  isLoggedIn, history, profile, loginAction, logoutAction, getImage, profileImage }) {
 
     const [state, setState] = useState({ ...initialState });
+
+    useEffect(() => {
+        if (profile) {
+            getImage(profile.avatar);
+        }
+        return () => {
+
+        }
+    }, [profile, getImage])
 
     const toggle = (event) => {
         event.preventDefault();
@@ -28,6 +38,7 @@ export function NavigationBar({  isLoggedIn, history, loginAction, logoutAction 
             isOpen: !prevState.isOpen
         }));
     }
+    
 
     const scrollToPosition = (event, element) => {
         event.preventDefault()
@@ -121,7 +132,7 @@ export function NavigationBar({  isLoggedIn, history, loginAction, logoutAction 
                             : (
                                 <UncontrolledDropdown nav inNavbar>
                                     <DropdownToggle nav dropdown>
-                                       <Image styleClass="nav-avatar" source={imageAvatar} />
+                                       <Image styleClass="nav-avatar" source={profileImage} />
                                     </DropdownToggle>
                                     <DropdownMenu right>
                                         <DropdownItem tag={Link} to="/account">
