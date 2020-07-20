@@ -6,6 +6,7 @@ function mapStateToProps(state) {
     return {
         user: state.login.user,
         profile: state.login.profile,
+        profileError: state.profile.profileError,
         timezoneList:
         [
             'Europe/Andorra',

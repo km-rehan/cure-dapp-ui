@@ -16,12 +16,10 @@ const hideLoader = () => loader.classList.add('loader--hide');
 setTimeout(() => 
   // the show/hide functions are passed as props
   ReactDOM.render(
-    <React.StrictMode>
       <App
         hideLoader={hideLoader}
         showLoader={showLoader} 
-      />
-      </React.StrictMode>,
+      />,
       document.getElementById('root')
 
   )

@@ -13,9 +13,10 @@ const SAVE_USER_PROFILE_FAILURE = "cure-dapp/profile-duck/SAVE_USER_PROFILE_FAIL
 
 // state
 const intialState = {
-    image: null,
-    error: null,
-    profileError: null,
+    image: "",
+    error: "",
+    profileDate: "",
+    profileError: "",
     message: "",
 }
 
@@ -31,11 +32,6 @@ export function profileReducer(state={...intialState}, action) {
             return {
                 ...state,
                 error: action.error
-            }
-        case SAVE_USER_PROFILE_REQUEST:
-            return {
-                ...state,
-                ...intialState
             }
         case SAVE_USER_PROFILE_SUCCESS:
             return {
@@ -69,9 +65,7 @@ export function saveProfileAction(body) {
 
 function* handleSaveUserProfile({ body }) {
     try {
-        yield put ({
-            type: SAVE_USER_PROFILE_REQUEST
-        });
+        console.log("Body", body);
         const data = yield call(saveUserProfile, body);
         yield put({
             type: SAVE_USER_PROFILE_SUCCESS,

@@ -3,7 +3,8 @@ import { HORoute } from "./HORoute";
 
 function mapStateToProps(state) {
     return {
-        isLoggedIn: state.login.isLoggedIn
+        user: state.login.user,
+        isLoggedIn: state.login.isLoggedIn,
     }
 }
 

@@ -19,9 +19,9 @@ const initialState = {
     isOpen: false
 }
 
-export function NavigationBar({  isLoggedIn, history, profile, loginAction, logoutAction, getImage, profileImage }) {
+export function NavigationBar({  isLoggedIn, history, user, profile, loginAction, logoutAction, getImage, profileImage }) {
 
-    const [state, setState] = useState({ ...initialState });
+    const [state, setState] = useState({ ...initialState })
 
     useEffect(() => {
         if (profile) {
@@ -30,7 +30,7 @@ export function NavigationBar({  isLoggedIn, history, profile, loginAction, logo
         return () => {
 
         }
-    }, [profile, getImage])
+    }, [profile, getImage, user])
 
     const toggle = (event) => {
         event.preventDefault();

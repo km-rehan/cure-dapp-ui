@@ -25,18 +25,6 @@ const initialState = {
 
 export function loginReducer(state={...initialState}, action) {
     switch(action.type) {
-        case LOGIN_REQUESTED:
-            sessionStorage.removeItem("AuthToken")
-            return {
-                ...state,
-                loading: true,
-                error: null,
-                user: {},
-                message: "",
-                expiryTime: null,
-                isLoggedIn: false,
-
-            }
         case LOGIN_USER_SUCCESSFUL:
             return {
                 ...state,
@@ -54,10 +42,11 @@ export function loginReducer(state={...initialState}, action) {
         case LOGOUT_USER:
             sessionStorage.removeItem("AuthToken")
             return {
+                ...state,
                 ...initialState
             }
         default:
-            return initialState;
+            return state;
     }
 }
 
@@ -72,15 +61,12 @@ export function loginAction(walletAddress) {
 
 export function logoutAction() {
     return {
-        type: LOGIN_USER
+        type: LOGOUT_USER
     }
 }
 
 function* handleLoginAction({ walletAddress }) {
     try {
-        yield put({
-            type: LOGIN_REQUESTED
-        });
         if (walletAddress && walletAddress.substring(0, 2) === "0x") {
             const wallet = new ether.Wallet(walletAddress);
             const sessionResponse = yield call(getUserSessionId);

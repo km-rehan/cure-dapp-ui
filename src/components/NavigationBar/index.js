@@ -8,8 +8,8 @@ import imageAvatar from "../../resources/icons/img_avatar.png";
 function mapStateToProps(state) {
 
     return {
+        user: state.login.user,
         isLoggedIn: state.login.isLoggedIn,
-        profile: state.login.profile,
         profileImage: state.profile.image ? state.profile.image : imageAvatar
     }
 }

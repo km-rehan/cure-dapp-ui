@@ -5,6 +5,7 @@ import Image from "../../components/Image";
 import defaultImage from "../../resources/icons/img_avatar.png";
 import LanguageList from "../../components/LanguageList";
 import moment from "moment";
+import * as imgToBase64 from "image-to-base64";
 
 
 const formValid = ({ isError, ...rest }) => {
@@ -28,6 +29,23 @@ const formValid = ({ isError, ...rest }) => {
 
     return isValid;
 };
+
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            resolve(reader.result)
+        };
+        reader.onerror = function(error) {
+            reject(error.message)
+        }
+    })
+    
+    // reader.onerror = function (error) {
+    //     console.log('Error: ', error);
+    // };
+}
 
 export class Account extends React.Component {
 
@@ -70,7 +88,17 @@ export class Account extends React.Component {
     }
 
     componentDidMount() {
+        this.fileSelector = this.buildFileSelector(async (pickedImage) => {
+            console.log("Picked an image", pickedImage);
+            const baseImage = await getBase64(pickedImage);
+            this.setState({
+                ...this.state,
+                pickedImage: pickedImage,
+                avatar: baseImage
+            });
+        });
 
+        console.log("User", JSON.stringify(this.props.user, null, 3));
     }
 
     onFormSubmit = (e) => {
@@ -159,39 +187,24 @@ export class Account extends React.Component {
         });
     }
 
-    getBase64Image = (file, callback) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function() {
-            callback(null, reader.result);
-        }
-        reader.onerror = function(error) {
-            callback(error, null);
-        }
-    }
 
-    buildFileSelector = () => {
+    buildFileSelector = (imagePicked) => {
         const fileSelector = document.createElement('input');
         fileSelector.setAttribute('type', 'file');
         fileSelector.setAttribute('multiple', 'multiple');
         fileSelector.onchange = function (ev) {
             console.log("Files", ev.currentTarget.files[0], ev.currentTarget.files)
             const pickedImage = ev.currentTarget.files[0];
-            this.getBase64Image(pickedImage, (err, file) => {
-                if (!err) {
-                    this.setState({
-                        ...this.state,
-                        pickedImage: pickedImage,
-                        imagePreview: file
-                    })
-                }   
-            });
-            
+            console.log("pickedImage", pickedImage)
+            // const file = getBase64(pickedImage, (file) => {
+            //     return file;
+            // })
+           //callback(pickedImage);
+           imagePicked(pickedImage)
         }
         return fileSelector;
     }
 
-    fileSelector = this.buildFileSelector();
    
     launchFileUploader = (e) => {
         e.stopPropagation();
@@ -200,7 +213,9 @@ export class Account extends React.Component {
     }
 
     render() {
-        const { bloodGroups, timezoneList, saveProfileAction } = this.props;
+        const { bloodGroups, timezoneList, profileError } = this.props;
+
+        console.log("Profile Error", profileError);
 
         return (
             <Container>

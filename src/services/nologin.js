@@ -4,6 +4,8 @@ import * as base64encoder from "base64-stream";
 
 export async function saveUserProfile(body) {
     try {
+        console.log("Token", sessionStorage.getItem("AuthToken", ""));
+        console.log("Request body", body);
         const response = await nologinApiFormUpload.post(Constants.SAVE_USER_PROFILE_PATH, body);
         return response;
     } catch (exception) {
