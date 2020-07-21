@@ -1,0 +1,202 @@
+.doctor-container {
+    margin: 0 auto;
+    width: 90%;
+    margin-bottom: 20%;
+    margin-top: 10%;
+}
+
+.loc-search {
+    width: 31%;
+    height: 40px;
+    border-width: 0px;
+    border-radius: 15px;
+    padding-left: 10px;
+    margin: 10px;
+    cursor: default !important;
+
+}
+
+.doc-search {
+    width: 65%;
+    height: 40px;
+    border-width: 0px;
+    border-radius: 15px;
+    padding-left: 10px;
+    margin: 10px;
+
+}
+
+::placeholder {
+    color: rgb(13, 193, 193);
+    opacity: 1;
+}
+
+.contact-box {
+    border: 1px solid #ffffff;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    background: rgb(255, 255, 255) !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.name-box {
+    display: flex;
+}
+
+.dr-img {
+    border: 1px solid #a7a7a773;
+    width: 90px;
+    height: 90px;
+    margin-right: 10px;
+}
+
+.name-head {
+    color: #827a7a;
+    font-weight: 400;
+}
+
+.dr-detail-txt {
+    text-align: initial;
+}
+
+.dr-more-box {
+    display: flex;
+}
+
+.more-img {
+    border: 1px solid #a7a7a773;
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+}
+
+.dr-btn-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.contact-btn {
+    border: 0px;
+    width: 120px;
+    height: 40px;
+    background-color: rgb(13, 193, 193);
+    color: #ffffff;
+    border-radius: 15px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+.img-app-dr {
+    width: 80px;
+    height: 80px;
+    border-radius: 80px;
+    border: 1px solid #a7a7a773;
+    margin-right: 20px;
+}
+
+.appointment-container {
+    margin-top: 40px;
+    border: 1px solid #ffffff;
+    width: 90%;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    background: rgb(255, 255, 255) !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dr-color-title {
+    color: rgb(13, 193, 193);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.dr-title {
+    color: #827a7a;
+    font-size: 15px;
+    margin-bottom: 0px;
+    text-align: initial;
+}
+
+.dr-name-flex {
+    text-align: initial;
+    margin-left: 20px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.dr-name-txt {
+    color: #827a7a;
+    font-size: 16px;
+    margin-bottom: 0px;
+}
+
+.status-txt {
+    color: #827a7a;
+    margin-bottom: 0px;
+    text-align: right;
+}
+
+.inside-flex {
+    display: flex;
+}
+
+.status-green-txt {
+    color: #82f650;
+    font-weight: bold;
+}
+
+.appointment-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.book-btn {
+    border: 0px;
+    width: 200px;
+    height: 40px;
+    background-color: rgb(13, 193, 193);
+    color: #ffffff;
+    border-radius: 15px;
+    font-weight: bold;
+}
+
+.svg-inline--fa.fa-graduation-cap.fa-w-20.font-icons {
+    color: #827a7a;
+}
+
+.like-dr-img {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-dr-flex {
+    display: flex;
+    margin-right: 10px;
+}
+
+.adjust-txt {
+    text-align: initial;
+}
+
+@media (max-width: 768px) {
+    .appointment-container {
+        width: 100%;
+    }
+
+    .book-btn {
+        font-size: 12px;
+    }
+
+    .contact-box {
+        margin-top: 20px;
+    }
+
+    .input-field-footer {
+        width: 200px;
+    }
+}

@@ -1,11 +1,9 @@
 import "./Account.css";
-import React, { useState } from "react";
+import React from "react";
 import { Row, Col, Container, Button, Card, CardTitle, CardBody, Input, Label } from "reactstrap";
 import Image from "../../components/Image";
-import defaultImage from "../../resources/icons/img_avatar.png";
 import LanguageList from "../../components/LanguageList";
 import moment from "moment";
-import * as imgToBase64 from "image-to-base64";
 
 
 const formValid = ({ isError, ...rest }) => {
@@ -41,17 +39,13 @@ function getBase64(file) {
             reject(error.message)
         }
     })
-    
-    // reader.onerror = function (error) {
-    //     console.log('Error: ', error);
-    // };
 }
 
 export class Account extends React.Component {
 
     state = {
-        pickedImage: defaultImage,
-        avatar: defaultImage,
+        pickedImage: null,
+        avatar: null,
         fname: "",
         lname: "",
         phoneNumber: "",
@@ -66,7 +60,7 @@ export class Account extends React.Component {
         state: "",
         country: "",
         pincode: "",
-        altername_email: "",
+        alternate_email: "",
         alternate_number: "",
         language: "",
         isError: {
@@ -89,7 +83,6 @@ export class Account extends React.Component {
 
     componentDidMount() {
         this.fileSelector = this.buildFileSelector(async (pickedImage) => {
-            console.log("Picked an image", pickedImage);
             const baseImage = await getBase64(pickedImage);
             this.setState({
                 ...this.state,
@@ -97,8 +90,40 @@ export class Account extends React.Component {
                 avatar: baseImage
             });
         });
+        this.props.getUserProfileAction(this.props.token);
+        if (this.props.profile) {
+            this.props.getImage(this.props.token)
+        }
 
-        console.log("User", JSON.stringify(this.props.user, null, 3));
+        if (this.props.profile) {
+            this.setState({
+                 ...this.state,
+                fname: this.props.profile.firstname,
+                lname: this.props.profile.lastname,
+                phoneNumber: this.props.profile.mobile,
+                emailId: this.props.profile.email,
+                gender: this.props.profile.gender,
+                dateOfBirth: moment(this.props.profile.dateOfBirth).format("dd/mm/yyyy"),
+                bloodGroup: this.props.profile.bloodGroup,
+                timezone: this.props.profile.timeZone,
+                city: this.props.profile.city,
+                state: this.props.profile.state,
+                country: this.props.profile.country,
+                pincode: this.props.profile.pinCode,
+                alternate_email: this.props.profile.secondaryEmail,
+                alternate_number: this.props.profile.secondaryPhone,
+                language: this.props.profile.language,
+            })
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (JSON.stringify(this.props) !== JSON.stringify(prevProps)) {
+            this.props.getUserProfileAction(this.props.token)
+            if (this.props.profile) {
+                this.props.getImage(this.props.profile.avatar, this.props.token);
+            }
+        }
     }
 
     onFormSubmit = (e) => {
@@ -118,14 +143,14 @@ export class Account extends React.Component {
             formData.append('state', this.state.state);
             formData.append('pinCode', this.state.pincode);
             formData.append('gender', this.state.gender ? this.state.gender : "");
-            formData.append('dateOfBirth', moment(this.state.dateOfBirth).format("YYYY-MM-DD"));
-            formData.append('secondaryEmail', this.state.altername_email ? this.state.altername_email : "");
+            formData.append('dateOfBirth', this.state.dateOfBirth);
+            formData.append('secondaryEmail', this.state.alternate_email ? this.state.alternate_email : "");
             formData.append('secondaryPhone', this.state.alternate_number ? this.state.alternate_number: "");
             formData.append('bloodGroup', this.state.bloodGroup ? this.state.bloodGroup : "")
             formData.append('language', this.state.language ? this.state.language : "")
             formData.append('timeZone', this.state.timezone ? this.state.timezone : "")
 
-            this.props.saveProfileAction(formData)
+            this.props.saveProfileAction(formData, this.props.token)
         }
         
     }
@@ -133,7 +158,6 @@ export class Account extends React.Component {
     onTextInputChange = (e) => {
         e.preventDefault();
         const { name, value } = e.target;
-        console.log("Event ", name + " Value " + value);
         let isError = { ...this.state.isError }
         switch(name) {
             case "fname":
@@ -193,9 +217,7 @@ export class Account extends React.Component {
         fileSelector.setAttribute('type', 'file');
         fileSelector.setAttribute('multiple', 'multiple');
         fileSelector.onchange = function (ev) {
-            console.log("Files", ev.currentTarget.files[0], ev.currentTarget.files)
             const pickedImage = ev.currentTarget.files[0];
-            console.log("pickedImage", pickedImage)
             // const file = getBase64(pickedImage, (file) => {
             //     return file;
             // })
@@ -213,12 +235,12 @@ export class Account extends React.Component {
     }
 
     render() {
-        const { bloodGroups, timezoneList, profileError } = this.props;
+        const { bloodGroups, timezoneList, profile, profileImage } = this.props;
 
-        console.log("Profile Error", profileError);
+        console.log("Profile data",  JSON.stringify(profile, null, 3));
 
         return (
-            <Container>
+            <Container className="main-content">
                 <Row lg={12}>
                 <Col lg={2}>
                     <Card className="left-card">
@@ -233,7 +255,7 @@ export class Account extends React.Component {
                             <h3>Account</h3>
                             <div className="top-account-profile">
                                 <div className="profile-img" onClick={this.launchFileUploader}>
-                                    <Image source={this.state.avatar} styleClass="avatar" alt="file-upload" />
+                                    <Image source={this.state.avatar ? this.state.avatar : profileImage} styleClass="avatar" alt="file-upload" />
                                 </div>
                                 <div className="ac-flex">
                                     <Label>
@@ -498,7 +520,7 @@ export class Account extends React.Component {
                                             name="alternate_email"
                                             value={this.state.alternate_email}
                                             onChange={this.onTextInputChange} 
-                                            placeholder="Alternate phone number" />
+                                            placeholder="Alternate email" />
                                     </Col>
                                     <Col className="items">
                                         <Label>

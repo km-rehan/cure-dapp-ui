@@ -2,16 +2,13 @@ import { put, call, takeEvery } from "redux-saga/effects";
 import { getUserSessionId, verifyMessage } from "../../services/login";
 import ether from "ethers-wallet";
 import * as jwt_decode from "jwt-decode";
-
+import session from "redux-persist/lib/storage/session";
 
 //actions
-const LOGIN_USER = "cured-app/login-duck/LOGIN_USER";
-const LOGIN_REQUESTED = "cure-dapp/login-duck/LOGIN_REQUESTED";
-const LOGIN_USER_SUCCESSFUL = "cured-app/login-duck/LOGIN_USER_SUCCESSFUL";
-const LOGIN_USER_FAILURE = "cured-app/login-duck/LOGIN_USER_FAILURE";
-
+const LOGIN_USER = "cured-dapp/login-duck/LOGIN_USER";
+const LOGIN_USER_SUCCESSFUL = "cured-dapp/login-duck/LOGIN_USER_SUCCESSFUL";
+const LOGIN_USER_FAILURE = "cured-dapp/login-duck/LOGIN_USER_FAILURE";
 const LOGOUT_USER = "cured-app/login-duck/LOGOUT";
-
 
 //state
 const initialState = {
@@ -21,26 +18,24 @@ const initialState = {
     expiryTime: null,
     isLoggedIn: false,
     loading: false,
+    token: "",
 }
 
-export function loginReducer(state={...initialState}, action) {
+export function loginReducer(state=initialState, action) {
     switch(action.type) {
         case LOGIN_USER_SUCCESSFUL:
             return {
                 ...state,
                 user: action.user,
-                expiryTime: action.expiryTime,
                 isLoggedIn: true,
-                loading: false
+                token: action.token
             }
         case LOGIN_USER_FAILURE:
             return {
                 ...state,
                 error: action.error,
-                loading: false
             }
         case LOGOUT_USER:
-            sessionStorage.removeItem("AuthToken")
             return {
                 ...state,
                 ...initialState
@@ -81,18 +76,13 @@ function* handleLoginAction({ walletAddress }) {
             const loginResponse = yield call(verifyMessage, loginBody);
             const { message, body, token } = loginResponse;
 
-            const decodedToken = jwt_decode(token);
-            sessionStorage.setItem("AuthToken", token);
-
-            console.log("Decoded", JSON.stringify(decodedToken))
-
-            const expireyTime = Date.now();
+            // const decodedToken = jwt_decode(token)'
 
             yield put({
                 type: LOGIN_USER_SUCCESSFUL,
                 message: message,
                 user: body,
-                expiryTime: expireyTime
+                token: token
             })
 
         } else {

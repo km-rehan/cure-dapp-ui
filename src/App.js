@@ -3,18 +3,21 @@ import Root from "./Root";
 import Routes from "./Routes";
 import "./App.css";
 import { Provider } from "react-redux";
-import { configureStore } from "./store";
+import { rootSaga } from "./store/sagas";
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import { store, persistor, sagaMiddleware } from "./store";
 
-const store = configureStore();
+sagaMiddleware.run(rootSaga);
 
-const App = ({ hideLoader }) => {
-  useEffect(hideLoader, []);
+const App = () => {
   
   return (
     <Provider store={store}>
-      <Root>
-        <Routes />
-      </Root>
+      <PersistGate persistor={persistor}>
+        <Root>
+          <Routes />
+        </Root>
+      </PersistGate>
     </Provider>
       
   ); 

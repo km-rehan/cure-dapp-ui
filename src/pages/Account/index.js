@@ -1,12 +1,15 @@
 import { Account } from "./Account";
 import { connect } from "react-redux";
-import { saveProfileAction } from "../../store/ducks/profile-duck";
+import { saveProfileAction, getImage, getUserProfileAction } from "../../store/ducks/profile-duck";
+import defaultImage from "../../resources/icons/img_avatar.png";
 
 function mapStateToProps(state) {
     return {
         user: state.login.user,
-        profile: state.login.profile,
+        profile: state.profile.profileData,
         profileError: state.profile.profileError,
+        token: state.login.token,
+        profileImage: state.profile.image ? state.profile.image : defaultImage,
         timezoneList:
         [
             'Europe/Andorra',
@@ -399,4 +402,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { saveProfileAction })(Account);
+export default connect(mapStateToProps, { saveProfileAction, getImage, getUserProfileAction })(Account);

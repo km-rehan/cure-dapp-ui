@@ -6,24 +6,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 import * as serviceWorker from './serviceWorker';
 
-const loader = document.querySelector('.loader');
 
-const showLoader = () => loader.classList.remove('loader--hide');
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
 
-const hideLoader = () => loader.classList.add('loader--hide');
-
-
-setTimeout(() => 
-  // the show/hide functions are passed as props
-  ReactDOM.render(
-      <App
-        hideLoader={hideLoader}
-        showLoader={showLoader} 
-      />,
-      document.getElementById('root')
-
-  )
-, 1500);
+)
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

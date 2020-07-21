@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 function mapStateToProps(state) {
     return {
-        loading: state.login.loading
     }
 }
 

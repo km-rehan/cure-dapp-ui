@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { 
     Collapse, Navbar, 
@@ -19,28 +19,28 @@ const initialState = {
     isOpen: false
 }
 
-export function NavigationBar({  isLoggedIn, history, user, profile, loginAction, logoutAction, getImage, profileImage }) {
 
-    const [state, setState] = useState({ ...initialState })
+export class  NavigationBar extends React.Component {
 
-    useEffect(() => {
-        if (profile) {
-            getImage(profile.avatar);
-        }
-        return () => {
+    state = {
+        ...initialState
+    }
 
-        }
-    }, [profile, getImage, user])
-
-    const toggle = (event) => {
+    toggle = (event) => {
         event.preventDefault();
-        setState(prevState => ({
+        this.setState(prevState => ({
             isOpen: !prevState.isOpen
         }));
     }
-    
 
-    const scrollToPosition = (event, element) => {
+    componentDidMount() {
+        if (this.props.token) {
+            this.props.getUserProfileAction(this.props.token)
+            this.props.getImage(this.props.profile.avatar, this.props.token);
+        }
+    }
+
+    scrollToPosition = (event, element) => {
         event.preventDefault()
         scroller.scrollTo(element, {
             duration: 1500,
@@ -50,107 +50,136 @@ export function NavigationBar({  isLoggedIn, history, user, profile, loginAction
         });
     }
 
-    const goHome = (event) => {
+    goHome = (event) => {
         event.preventDefault();
-        history.push("/")
+        this.props.history.push("/")
     }
 
-    const connectToWallet = (e) => {
+    connectToWallet = (e) => {
         e.preventDefault()
         window.open("https://eraswap.life", "", "width=1003,height=650")
         window.onload = function () {
             window.opener.postMessage("loaded", "*")
         }
-        window.addEventListener('message', function (e) {
+        window.addEventListener('message', (e) => {
             //SHOULD BE UNCOMMENTED BELOW FUNCTION IN PRODUCTION
             const data = e.data;
-            loginAction(data)
+            this.props.loginAction(data)
         }, false);
 
-        window.onclose = function() {
-            window.removeEventListener('message', function(e) {
-            }, false)
+        window.onclose = function () {
+            window.removeEventListener('message', function (e) {}, false)
         }
-        
     }
 
-    return (
-        <Navbar light fixed="top" expand="md">
-            <NavbarBrand onClick={goHome}>
-                <Image source={logoImage} styleClass="header-logo" alt="Era swap logo" />
-            </NavbarBrand>
-            <NavbarToggler onClick={toggle} />
-            <Collapse isOpen={state.isOpen} navbar>
-                <Nav className="mr-auto" navbar>
-                    <NavItem>
-                        <NavLink tag={Link} to="/home">Home</NavLink>
-                    </NavItem>
-                    <UncontrolledDropdown nav inNavbar>
-                        <DropdownToggle className="custom-dropdown-toggle" nav dropdown>
-                            Our products
-                        </DropdownToggle>
-                        <DropdownMenu className="custom-dropdown-menu" right>
-                            <DropdownItem className="custom-dropdown-item" tag={Link} to="/products/distributor">
-                                Distributor
-                            </DropdownItem>
-                            <DropdownItem className="custom-dropdown-item" tag={Link} to="/products/manufacturer">
-                                Manufacturer
-                            </DropdownItem>
-                            <DropdownItem className="custom-dropdown-item" tag={Link} to="/products/patient">
-                                Patient
-                            </DropdownItem>
-                            <DropdownItem className="custom-dropdown-item" tag={Link} to="/products/pharmacy">
-                                Pharmacy
-                            </DropdownItem>
-                        </DropdownMenu>
-                    </UncontrolledDropdown>
-                    <NavItem>
-                        <NavLink tag={Link} onClick={(e) => scrollToPosition(e, "about_us")}>
-                            About us
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink tag={Link} onClick={(e) => scrollToPosition(e, "blogs")}>
-                            Blogs
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink tag={Link} onClick={(e) => scrollToPosition(e, "white_paper")}>
-                            White paper
-                        </NavLink>
-                    </NavItem>
-                </Nav>
-                <Nav pills>
-                    <NavItem>
-                        {
-                            !isLoggedIn
-                            ? (
-                                <NavLink tag={Link} onClick={connectToWallet} className="connect-wallet-button">
-                                    Connect to wallet
-                                </NavLink>
-                              )
-                            : (
-                                <UncontrolledDropdown nav inNavbar>
-                                    <DropdownToggle nav dropdown>
-                                       <Image styleClass="nav-avatar" source={profileImage} />
-                                    </DropdownToggle>
-                                    <DropdownMenu right>
-                                        <DropdownItem tag={Link} to="/account">
-                                            Account
-                                        </DropdownItem>
-                                        <DropdownItem tag={Link} to="/wallet"> 
-                                            Wallet
-                                        </DropdownItem>
-                                        <DropdownItem tag={Link} onClick={logoutAction}>
-                                            Logout
-                                        </DropdownItem>
-                                    </DropdownMenu>
-                                </UncontrolledDropdown>
-                              )
-                        }
-                    </NavItem>
-                </Nav>
-            </Collapse>
-        </Navbar>
-    )
+    componentDidUpdate(prevProps, prevState) {
+        if (JSON.stringify(this.props) !== JSON.stringify(prevProps)) {
+            this.props.getUserProfileAction();
+            if (this.props.profile) {
+                this.props.getImage(this.props.profile.avatar, this.props.token);
+            }
+        }
+    }
+
+    handleHomeButtonClick = (e) => {
+        e.preventDefault();
+        console.log("this.props.history", this.props.history.location);
+        const { location } = this.props.history;
+        if (location.pathname !== "/") {
+            this.props.history.push("/")
+        } else  {
+            this.scrollToPosition(e, "top");
+        }
+    }
+
+    render() {
+        const {
+            isLoggedIn,
+            profileImage,
+            logoutAction,
+            token
+        } = this.props;
+
+        console.log("token", token)
+
+
+        return (
+            <Navbar light fixed="top" expand="md">
+                <NavbarBrand onClick={this.goHome}>
+                    <Image source={logoImage} styleClass="header-logo" alt="Era swap logo" />
+                </NavbarBrand>
+                <NavbarToggler onClick={this.toggle} />
+                <Collapse isOpen={this.state.isOpen} navbar>
+                    <Nav className="mr-auto" navbar>
+                        <NavItem>
+                            <NavLink tag={Link} onClick={this.handleHomeButtonClick}>Home</NavLink>
+                        </NavItem>
+                        <UncontrolledDropdown nav inNavbar>
+                            <DropdownToggle className="custom-dropdown-toggle" nav dropdown>
+                                Our products
+                            </DropdownToggle>
+                            <DropdownMenu right>
+                                <DropdownItem tag={Link} to="/products/appointment">
+                                    Doctors Appointment
+                                </DropdownItem>
+                                <DropdownItem tag={Link} to="/products/tracker">
+                                    Fitness tracker
+                                </DropdownItem>
+                                <DropdownItem tag={Link} to="/products/pharmacy">
+                                    Pharmacy
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
+                        <NavItem>
+                            <NavLink tag={Link} onClick={(e) => this.scrollToPosition(e, "about_us")}>
+                                About us
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={Link} onClick={(e) => this.scrollToPosition(e, "blogs")}>
+                                Blogs
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={Link} onClick={(e) => this.scrollToPosition(e, "white_paper")}>
+                                White paper
+                            </NavLink>
+                        </NavItem>
+                    </Nav>
+                    <Nav pills>
+                        <NavItem>
+                            {
+                                !isLoggedIn
+                                ? (
+                                    <NavLink tag={Link} onClick={this.connectToWallet} className="connect-wallet-button">
+                                        Connect to wallet
+                                    </NavLink>
+                                )
+                                : (
+                                    <UncontrolledDropdown nav inNavbar>
+                                        <DropdownToggle nav dropdown>
+                                        <Image styleClass="nav-avatar" source={profileImage} alt="avatar" />
+                                        </DropdownToggle>
+                                        <DropdownMenu right>
+                                            <DropdownItem tag={Link} to="/account">
+                                                Account
+                                            </DropdownItem>
+                                            <DropdownItem tag={Link} to="/wallet"> 
+                                                Wallet
+                                            </DropdownItem>
+                                            <DropdownItem tag={Link} onClick={logoutAction}>
+                                                Logout
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                    </UncontrolledDropdown>
+                                )
+                            }
+                        </NavItem>
+                    </Nav>
+                </Collapse>
+            </Navbar>
+        )
+    }
+
+
 }

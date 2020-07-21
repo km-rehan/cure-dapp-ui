@@ -8,7 +8,11 @@
     padding: 10px;
     box-shadow: 1px 4px #a7a7a773;
     margin-top: 10%;
-    height: 100vh;
+}
+
+.container {
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .left-card {
