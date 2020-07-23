@@ -22,6 +22,7 @@ const intialState = {
     profileData: "",
     profileError: "",
     message: "",
+    isLoading: false
 }
 
 //reducer
@@ -51,12 +52,14 @@ export function profileReducer(state={...intialState}, action) {
             return {
                 ...state,
                 message: action.message,
-                profileData: action.profile
+                profileData: action.profile,
+                isLoading: false
             }
         case SAVE_USER_PROFILE_FAILURE:
             return {
                 ...state,
-                profileError: action.profileError
+                profileError: action.profileError,
+                isLoading: false
             }
         default:
             return state;
@@ -76,7 +79,8 @@ export function saveProfileAction(body, token) {
     return {
         type: SAVE_USER_PROFILE,
         body: body,
-        token: token
+        token: token,
+        isLoading: true
     }
 }
 

@@ -6,6 +6,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 import createEncryptor from 'redux-persist-transform-encrypt'
+import expireIn from "redux-persist-transform-expire-in";
 
 const encryptor = createEncryptor({
     secretKey: 'cureDapp',
@@ -23,10 +24,16 @@ if (process.env.NODE_ENV !== 'production') {
     middleware = [...middleware, logger];
 }
 
+const expiresIn = 3600000; // expire in 48h
+const expirationKey = "login";
+
 const persistConfig = {
     key: 'root',
     storage: storage,
-    transforms: [encryptor],
+    transforms: [encryptor, expireIn(expiresIn, expirationKey, [])],
+    whitelist: [
+        'login'
+    ],
     stateReconciler: autoMergeLevel2, // see "Merge Process" section for details.
 };
 

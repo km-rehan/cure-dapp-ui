@@ -240,7 +240,8 @@ export class Account extends React.Component {
         console.log("Profile data",  JSON.stringify(profile, null, 3));
 
         return (
-            <Container className="main-content">
+            <div className="top-padding">
+                <Container className="main-content">
                 <Row lg={12}>
                 <Col lg={2}>
                     <Card className="left-card">
@@ -546,6 +547,7 @@ export class Account extends React.Component {
                 </Col>
                 </Row>
             </Container>
+            </div>
         )
     }
 }

@@ -1,8 +1,11 @@
 .doctor-container {
     margin: 0 auto;
     width: 90%;
-    margin-bottom: 20%;
-    margin-top: 10%;
+    padding: 5%;
+}
+
+.form-container{
+    padding-top: 90px;
 }
 
 .loc-search {
@@ -14,6 +17,10 @@
     margin: 10px;
     cursor: default !important;
 
+}
+
+.custom-row {
+    display: flex;
 }
 
 .doc-search {
@@ -35,7 +42,7 @@
     border: 1px solid #ffffff;
     padding: 10px;
     background-color: #ffffff;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 10px;
     background: rgb(255, 255, 255) !important;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -100,7 +107,6 @@
 .appointment-container {
     margin-top: 40px;
     border: 1px solid #ffffff;
-    width: 90%;
     padding: 15px;
     background-color: #ffffff;
     border-radius: 10px;

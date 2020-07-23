@@ -1,8 +1,9 @@
 import  React, { useState, useEffect } from "react";
 import { Media } from "reactstrap";
 import Image from "../Image";
-import bannerImg  from "../../resources/icons/woman-discussing-a-lesson.jpg";
+import bannerImg  from "../../resources/icons/doctor.jpg";
 import { Element } from "react-scroll";
+import "./Banner.css";
 
 
 export function Banner({ children }) {

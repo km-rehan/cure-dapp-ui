@@ -10,7 +10,12 @@
   position: fixed !important;
 }
 
-.container{margin-top: 74px;}
+.alert-position {
+  margin-right: 120px;
+  margin-left: 120px;
+  margin-top: -50px;
+}
+
 .maindiv{ background-color: #f5f3f3; padding-bottom: 86px; }
 
 .mr-3{ border-radius: 11px; width: 71%; }

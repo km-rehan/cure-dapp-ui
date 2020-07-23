@@ -7,9 +7,12 @@ export function HORoute ({ component: Component, isLoggedIn, ...rest }) {
     return (
         <Route
             {...rest}
-            render={props => (
-                isLoggedIn ? <Component {...props} /> : <Redirect to="/" />
-            )}
+            render={props =>  {
+                console.log(props)
+                return (
+                    isLoggedIn ? <Component {...props} isLoggedIn {...rest} /> : <Redirect to="/" />
+                )}
+            }
          />
     )
 }

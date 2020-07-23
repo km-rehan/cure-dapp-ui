@@ -12,6 +12,7 @@ import logoImage from "../../resources/icons/curelogo.png"
 import Image from "../Image";
 import "./NavigationBar.css";
 import { scroller } from "react-scroll";
+import * as is from "is_js";
 
 
 
@@ -73,9 +74,11 @@ export class  NavigationBar extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (JSON.stringify(this.props) !== JSON.stringify(prevProps)) {
-            this.props.getUserProfileAction();
-            if (this.props.profile) {
+        if (this.props.isLoggedIn) {
+            if (is.undefined(this.props.profile)) {
+                this.props.getUserProfileAction();
+            }
+            if (this.props.profile && JSON.stringify(this.props.profile) !== JSON.stringify(prevProps.profile)) {
                 this.props.getImage(this.props.profile.avatar, this.props.token);
             }
         }
@@ -97,10 +100,12 @@ export class  NavigationBar extends React.Component {
             isLoggedIn,
             profileImage,
             logoutAction,
-            token
+            token,
+            user
         } = this.props;
 
         console.log("token", token)
+        console.log("User", user);
 
 
         return (
@@ -119,13 +124,13 @@ export class  NavigationBar extends React.Component {
                                 Our products
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <DropdownItem tag={Link} to="/products/appointment">
+                                <DropdownItem tag={Link} to="/doctors">
                                     Doctors Appointment
                                 </DropdownItem>
-                                <DropdownItem tag={Link} to="/products/tracker">
+                                <DropdownItem tag={Link} to="/tracker">
                                     Fitness tracker
                                 </DropdownItem>
-                                <DropdownItem tag={Link} to="/products/pharmacy">
+                                <DropdownItem tag={Link} to="/pharmacy">
                                     Pharmacy
                                 </DropdownItem>
                             </DropdownMenu>
