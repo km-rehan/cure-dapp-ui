@@ -1,4 +1,4 @@
-.main-container{
+.account-main-container{
     border: 1px solid  #a7a7a773;
     border-radius: 10px;
     margin-bottom:18%;
@@ -9,7 +9,7 @@
     margin-top: 10%;
 }
 
-.top-padding {
+.account-top-padding {
   padding-top: 80px;
 }
 
@@ -108,7 +108,7 @@
       display: none;
   }
 
-  .form-container {
+  .account-form-container {
     display: flex;
     margin: 10px;
     flex-wrap: wrap;
@@ -163,4 +163,20 @@
 
  .submit-button {
      width: 100%;
+ }
+
+ .card-body {
+   padding: 0px !important;
+ }
+
+ .kyc-status-list-item {
+   margin: 10px;
+ }
+
+ .kyc-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    padding: 10px;
  }

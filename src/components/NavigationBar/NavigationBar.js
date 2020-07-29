@@ -152,6 +152,17 @@ export class  NavigationBar extends React.Component {
                         </NavItem>
                     </Nav>
                     <Nav pills>
+                        {isLoggedIn && !user?.doctor ?   
+                            (
+                                <NavItem>
+                                    <NavLink tag={Link} 
+                                        to="/doctor-application" 
+                                        className="connect-wallet-button">
+                                        Apply as a doctor
+                                    </NavLink>
+                                </NavItem>
+                            ): null
+                        }
                         <NavItem>
                             {
                                 !isLoggedIn

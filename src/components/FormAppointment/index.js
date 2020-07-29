@@ -1,3 +1,9 @@
-import { FormAppoinment } from "./FormAppointment";
+import { FormAppointment } from "./FormAppointment";
+import { connect } from "react-redux";
 
-export default FormAppointment;
+function mapStateToProps(state) {
+    return {
+    }
+}
+
+export default connect(mapStateToProps, {})(FormAppointment);

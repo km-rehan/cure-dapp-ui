@@ -4,16 +4,16 @@ nav {
  align-items: center;
  min-height: 10vh;
  height: 60px;
- border-radius: 12px;
+ /* border-radius: 12px; */
  position: relative;
  bottom: 664px;
  background: rgb(13, 193, 193)!important;
  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
  transition: 0.3s;
- color: white;
+ /* color: white;
  margin-left: 5px;
  margin-right: 5px;
- margin-top: 5px;
+ margin-top: 5px; */
 }
 
 nav:hover {
@@ -21,7 +21,8 @@ nav:hover {
 }
 
 .nav-item {
-  margin: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .navbar button{ color: white; font-weight: bold; background-color:rgb(13, 193, 193) ; }

@@ -4,6 +4,7 @@ import { Row, Col, Container, Button, Card, CardTitle, CardBody, Input, Label } 
 import Image from "../../components/Image";
 import LanguageList from "../../components/LanguageList";
 import moment from "moment";
+import AccountKycStatus from "./AccountKycStatus";
 
 
 const formValid = ({ isError, ...rest }) => {
@@ -54,8 +55,7 @@ export class Account extends React.Component {
         dateOfBirth: "",
         bloodGroup: "",
         timezone: "",
-        house_number: "",
-        colony: "",
+        address: "",
         city: "",
         state: "",
         country: "",
@@ -72,7 +72,7 @@ export class Account extends React.Component {
             dateOfBirth: "",
             bloodGroup: "",
             timezone: "",
-            house_number: "",
+            address: "",
             city: "",
             state: "",
             country: "",
@@ -106,6 +106,7 @@ export class Account extends React.Component {
                 dateOfBirth: moment(this.props.profile.dateOfBirth).format("dd/mm/yyyy"),
                 bloodGroup: this.props.profile.bloodGroup,
                 timezone: this.props.profile.timeZone,
+                address: this.props.profile.address,
                 city: this.props.profile.city,
                 state: this.props.profile.state,
                 country: this.props.profile.country,
@@ -137,7 +138,7 @@ export class Account extends React.Component {
             formData.append('lastname', this.state.lname);
             formData.append('email', this.state.emailId);
             formData.append('mobile', this.state.phoneNumber);
-            formData.append('address', this.state.colony ? this.state.house_number + " " + this.state.colony : this.state.house_number);
+            formData.append('address', this.state.address);
             formData.append('city', this.state.city);
             formData.append('country', this.state.country);
             formData.append('state', this.state.state);
@@ -186,8 +187,8 @@ export class Account extends React.Component {
             case "timezone":
                 isError.timezone = value === "" ? "Timezone should not be left blank" : ""
                 break;
-            case "house_number":
-                isError.house_number = value === "" ? "Please enter house number, area or street": ""
+            case "address":
+                isError.address = value === "" ? "Please enter your address": ""
                 break;
             case "city":
                 isError.city = value === "" ? "City should not be left blank": ""
@@ -218,10 +219,6 @@ export class Account extends React.Component {
         fileSelector.setAttribute('multiple', 'multiple');
         fileSelector.onchange = function (ev) {
             const pickedImage = ev.currentTarget.files[0];
-            // const file = getBase64(pickedImage, (file) => {
-            //     return file;
-            // })
-           //callback(pickedImage);
            imagePicked(pickedImage)
         }
         return fileSelector;
@@ -241,15 +238,9 @@ export class Account extends React.Component {
 
         return (
             <div className="top-padding">
-                <Container className="main-content">
+                <Container className="account-main-container">
                 <Row lg={12}>
-                <Col lg={2}>
-                    <Card className="left-card">
-                        <CardTitle>
-                            Account Kyc
-                        </CardTitle>
-                    </Card>
-                </Col>
+                    <AccountKycStatus />
                 <Col lg={10}>
                     <Card className="right-card">
                         <CardTitle>
@@ -294,7 +285,7 @@ export class Account extends React.Component {
                         </CardTitle>
                         <CardBody>
                             <div className="section">
-                                <Row className="form-container">
+                                <Row className="account-form-container">
                                     <Col className="items">
                                         <Label>
                                             Enter contact number
@@ -403,34 +394,22 @@ export class Account extends React.Component {
                                 </Row>
                             </div>
                             <div className="section">
-                                <Row className="form-container">
+                                <Row className="account-form-container">
                                     <Col className="items">
                                         <Label>
-                                            Enter House No / area / street
+                                            Address
                                         </Label>
                                         <Input 
-                                            type="text" 
+                                            type="textarea"
+                                            max={8}
                                             name="house_number"
-                                            className={this.state.isError.house_number.length > 0 ? "is-invalid form-control" : "form-control"} 
+                                            className={this.state.isError.address.length > 0 ? "is-invalid form-control" : "form-control"} 
                                             onChange={this.onTextInputChange}
-                                            value={this.state.house_number} 
+                                            value={this.state.address} 
                                             placeholder="House No / area / street"  />
-                                        {this.state.isError.house_number.length > 0 && (
-                                            <span className="invalid-feedback">{this.state.isError.house_number}</span>
+                                        {this.state.isError.address.length > 0 && (
+                                            <span className="invalid-feedback">{this.state.isError.address}</span>
                                         )}
-                                    </Col>
-
-                                    <Col className="items">
-                                        <Label>
-                                            Enter Colony / street / locality
-                                        </Label>
-                                        <Input 
-                                            type="text" 
-                                            id="colony" 
-                                            name="colony"
-                                            value={this.state.colony}
-                                            onChange={this.onTextInputChange}
-                                            placeholder="Colony / street / locally" />
                                     </Col>
                                     <Col className="items">
                                         <Label>
@@ -497,7 +476,7 @@ export class Account extends React.Component {
                             </div>
 
                             <div className="section">
-                                <Row className="form-container">
+                                <Row className="account-form-container">
                                     <Col className="items">
                                         <Label>
                                             Enter alternative number

@@ -11,17 +11,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import *  as jwt_decode from "jwt-decode"
 import * as is from "is_js";
 
-const Msg = ({ }) => (
-  <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: "space-between"
-  }}>
-    Your kyc is not yet completed, please click on the the button to complete your kyc
-    <a href="https://kycdapp.com" target="_blank">Visit Kyc dapp</a>
-  </div>
-)
-
 export function Routes({ token, user, logoutAction }) {
 
     useEffect(() => {
@@ -32,12 +21,6 @@ export function Routes({ token, user, logoutAction }) {
                  logoutAction();
              }
         }
-        if (user && !user.isKycDone) {
-            toast.warning(<Msg />, {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: false
-            })
-        } 
         return () => {
         }
     }, [token, user])
